@@ -71,7 +71,7 @@ public:
 	}
 	Stack& operator=(const Stack& src)
 	{
-		if (pTop) {
+		if (!empty()) {
 			delete pTop;
 			pTop = nullptr;
 		}

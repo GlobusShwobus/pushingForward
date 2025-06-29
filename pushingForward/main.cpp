@@ -1,127 +1,207 @@
 #include <iostream>
+#include "Stack.h"
 
-using std::cout;
-
-class SlaveA {
-public:
-	SlaveA() {
-		cout << "default con SlaveA\n";
-	}
-	SlaveA(const SlaveA& copy) {
-		cout << "copy con SlaveA\n";
-	}
-	SlaveA& operator=(const SlaveA& copy) {
-		cout << "copy ass SlaveA\n";
-		return *this;
-	}
-	~SlaveA() {
-		cout << "destructing SlaveA\n";
-	}
-};
-class SlaveB {
-public:
-	SlaveB() {
-		cout << "default con SlaveB\n";
-	}
-	SlaveB(const SlaveB& copy) {
-		cout << "copy con SlaveB\n";
-	}
-	SlaveB& operator=(const SlaveB& copy) {
-		cout << "copy ass SlaveB\n";
-		return *this;
-	}
-	~SlaveB() {
-		cout << "destructing SlaveB\n";
-	} 
-};
-class SlaveC {
-public:
-	SlaveC() {
-		cout << "default con SlaveC\n";
-	}
-	SlaveC(const SlaveC& copy) {
-		cout << "copy con SlaveC\n";
-	}
-	SlaveC& operator=(const SlaveC& copy) {
-		cout << "copy ass SlaveC\n";
-		return *this;
-	}
-	~SlaveC() {
-		cout << "destructing SlaveC\n";
-	}
-};
-
-class Master {
-	
-	SlaveA a;
-	SlaveB b;
-	SlaveC c;
-	int x;
-
-public:
-	Master() {
-		cout << "default con Master\n";
-	}
-	Master(int X):x(X) {
-		cout << "int con Master\n";
-	}
-	Master(const Master& copy):a(copy.a), b(copy.b), c(copy.c), x(copy.x) {
-		cout << "copy con Master\n";
-	}
-	Master& operator=(const Master& copy) {
-		a = copy.a;
-		b = copy.b;
-		c = copy.c;
-		x = copy.x;
-		cout << "copy ass Master\n";
-		return *this;
-	}
-	~Master() {
-		cout << "destructing Master\n";
-	}
-};
-
-void funcy(Master& m)
+void test1()
 {
+	Stack s;
+	s.push(5);
+	s.push(3);
+	if (s.pop() == 3 && s.pop() == 5 && s.empty())
+	{
+		printf("    Test 1 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 1 failed!\n");
+	}
 }
 
-class DynamicIntArray
+void test2()
 {
-	int* parr = nullptr;
-	int size = 0;
-	void copyContent(int* arr, int size) {
-		for (int x = 0; x < size; x++) {
-			parr[x] = arr[x];
-		}
-	}
-public:
-	DynamicIntArray(int size) :parr(new int[size]), size(size) {}
-	DynamicIntArray(const DynamicIntArray& copy) {
-		parr = new int[copy.size];
-		copyContent(copy.parr, copy.size);
-	}
-	DynamicIntArray& operator=(const DynamicIntArray& copy) {
-		if (parr)
-			delete[]parr;
-		parr = new int[copy.size];
-		copyContent(copy.parr, copy.size);
-		return *this;
-	}
-
-	~DynamicIntArray()
+	Stack s;
+	s.push(5);
+	s.push(3);
+	s.push(3);
+	s.push(3);
+	if (s.size() == 4)
 	{
-		delete[]parr;
-		parr = nullptr;
+		printf("    Test 2 passed!\n");
 	}
-	int& operator[](int index) {
-		return parr[index];
+	else
+	{
+		printf("*** Test 2 failed!\n");
 	}
-};
+}
+
+void test3()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+	s.pop();
+	s.push(69);
+	s.push(69);
+	s.push(69);
+	s.push(69);
+	s.pop();
+	s.pop();
+	s.pop();
+	if (s.size() == 2)
+	{
+		printf("    Test 3 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 3 failed!\n");
+	}
+}
+
+void test4()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+	s.pop();
+	s.pop();
+	s.pop();
+	s.pop();
+	if (s.size() == 0)
+	{
+		printf("    Test 4 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 4 failed!\n");
+	}
+}
+
+void test5()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+
+	Stack s2 = s;
+	s2.pop();
+
+	if (s.size() == 2 && s2.pop() == 5)
+	{
+		printf("    Test 5 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 5 failed!\n");
+	}
+}
+
+void test6()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+
+	{
+		Stack s2 = s;
+		s2.pop();
+	}
+
+	if (s.size() == 2 && s.pop() == 3)
+	{
+		printf("    Test 6 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 6 failed!\n");
+	}
+}
+
+void test7()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+
+	Stack s2;
+	s2 = s;
+	s2.pop();
+
+	if (s.size() == 2 && s2.pop() == 5)
+	{
+		printf("    Test 7 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 7 failed!\n");
+	}
+}
+
+void test8()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+
+	{
+		Stack s2;
+		s2 = s;
+		s2.pop();
+	}
+
+	if (s.size() == 2 && s.pop() == 3)
+	{
+		printf("    Test 8 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 8 failed!\n");
+	}
+}
+
+void test9()
+{
+	Stack s;
+	s.push(5);
+	s.push(3);
+
+	{
+		Stack s2;
+		s2.push(828374);
+		s2.push(3454);
+		s2 = s;
+		s2.pop();
+	}
+
+	if (s.size() == 2 && s.pop() == 3)
+	{
+		printf("    Test 9 passed!\n");
+	}
+	else
+	{
+		printf("*** Test 9 failed!\n");
+	}
+}
 
 
-int main() {
+int main()
+{
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+
+	test1();
+	test2();
+	test3();
+	test4();
+	test5();
+	test6();
+	test7();
+	test8();
+	test9();
 
 
-
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

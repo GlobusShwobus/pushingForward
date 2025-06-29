@@ -3,7 +3,7 @@
 
 void test1()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 	if (s.pop() == 3 && s.pop() == 5 && s.empty())
@@ -18,13 +18,13 @@ void test1()
 
 void test2()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 	s.push(3);
 	s.push(3);
 	int i = s.size();
-	int b = i;
+	int b=i;
 	if (s.size() == 4)
 	{
 		printf("    Test 2 passed!\n");
@@ -37,7 +37,7 @@ void test2()
 
 void test3()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 	s.pop();
@@ -60,7 +60,7 @@ void test3()
 
 void test4()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 	s.pop();
@@ -79,11 +79,11 @@ void test4()
 
 void test5()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 
-	Stack s2 = s;
+	Stack<int> s2 = s;
 	s2.pop();
 
 	if (s.size() == 2 && s2.pop() == 5)
@@ -98,12 +98,12 @@ void test5()
 
 void test6()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 
 	{
-		Stack s2 = s;
+		Stack<int> s2 = s;
 		s2.pop();
 	}
 
@@ -119,11 +119,11 @@ void test6()
 
 void test7()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 
-	Stack s2;
+	Stack<int> s2;
 	s2 = s;
 	s2.pop();
 
@@ -139,12 +139,12 @@ void test7()
 
 void test8()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 
 	{
-		Stack s2;
+		Stack<int> s2;
 		s2 = s;
 		s2.pop();
 	}
@@ -161,12 +161,12 @@ void test8()
 
 void test9()
 {
-	Stack s;
+	Stack<int> s;
 	s.push(5);
 	s.push(3);
 
 	{
-		Stack s2;
+		Stack<int> s2;
 		s2.push(828374);
 		s2.push(3454);
 		s2 = s;

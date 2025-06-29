@@ -22,29 +22,28 @@
 * 
 ************************************************************************************************************************/
 
-class Stack 
+template <typename T> class Stack
 {
 private:
 
 	class Element {
 
 		Element* pPrevious = nullptr;
-		int val;
+		T val;
 
 	public:
 
-		Element(int val, Element* currentTop):val(val),pPrevious(currentTop) {}
+		Element(const T& val, Element* currentTop) :val(val), pPrevious(currentTop) {}
 
-		Element(const Element& src) :val(src.val){
+		Element(const Element& src) :val(src.val) {
 			if (src.pPrevious != nullptr) {
 				pPrevious = new Element(*src.pPrevious);
 			}
 		}
+		Element& operator=(const Element& src) = delete;
 		~Element() {
-			if (pPrevious) {
-				delete pPrevious;
-				pPrevious = nullptr;
-			}
+			delete pPrevious;
+			pPrevious = nullptr;
 		}
 
 		Element* disconnect() {
@@ -52,10 +51,10 @@ private:
 			pPrevious = nullptr;
 			return temp;
 		}
-		int getVal() {
+		T& getVal() {
 			return val;
 		}
-		int count(Element* elem) {
+		int count(Element* elem)const {
 			if (elem->pPrevious != nullptr) {
 				return count(elem->pPrevious) + 1;
 			}
@@ -66,11 +65,11 @@ private:
 	};
 
 	Element* pTop = nullptr;
-	
+
 public:
 
 	Stack() = default;
-	
+
 	Stack(const Stack& src) {
 		*this = src;
 	}
@@ -83,39 +82,33 @@ public:
 		}
 		return*this;
 	}
-	~Stack(){
+	~Stack() {
 		if (pTop) {
 			delete pTop;
 			pTop = nullptr;
 		}
 	}
 
-	void push(int val)
+	void push(const T& val)
 	{
 		pTop = new Element(val, pTop);
 	}
-	int pop()
+	T pop()
 	{
-		if (!empty()) {
-			const int payload = pTop->getVal();
-			Element* tempTop = pTop;
-			pTop = pTop->disconnect();
-			delete tempTop;
+		if (empty()) {
+			throw std::out_of_range("can't pop an empty stack");
+		}
+		T payload = pTop->getVal();
+		Element* tempTop = pTop;
+		pTop = pTop->disconnect();
+		delete tempTop;
 
-			return payload;
-		}
-		else {
-			return -1;
-		}
+		return payload;
+
 	}
 	int size()const
 	{
-		if (!empty()) {
-			return pTop->count(pTop);
-		}
-		else {
-			return 0;
-		}
+		return empty() ? 0 : pTop->count();
 	}
 	bool empty()const
 	{

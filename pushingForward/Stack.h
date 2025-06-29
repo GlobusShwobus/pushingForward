@@ -25,65 +25,69 @@
 class Stack 
 {
 private:
-	class Element
-	{
-		Element* pNext = nullptr;
+
+	class Element {
+
+		Element* pPrevious = nullptr;
 		int val;
+
 	public:
-		Element(int val, Element* pNext) :val(val), pNext(pNext) {}
-		Element(const Element& src):val(src.val)
-		{
-			if (src.pNext != nullptr) {
-				pNext = new Element(*src.pNext);
+
+		Element(int val, Element* currentTop):val(val),pPrevious(currentTop) {}
+
+		Element(const Element& src) :val(src.val){
+			if (src.pPrevious != nullptr) {
+				pPrevious = new Element(*src.pPrevious);
 			}
 		}
-		int getVal()const
-		{
+		~Element() {
+			if (pPrevious) {
+				delete pPrevious;
+				pPrevious = nullptr;
+			}
+		}
+
+		Element* disconnect() {
+			Element* temp = pPrevious;
+			pPrevious = nullptr;
+			return temp;
+		}
+		int getVal() {
 			return val;
 		}
-		Element* disconnect() {
-			Element* pTemp = pNext;
-			pNext = nullptr;
-			return pTemp;
-		}
-		int countElements()const
-		{
-			if (pNext != nullptr) {
-				return pNext->countElements() + 1;
+		int count(Element* elem) {
+			if (elem->pPrevious != nullptr) {
+				return count(elem->pPrevious) + 1;
 			}
 			else {
 				return 1;
 			}
 		}
-		~Element()
-		{
-			delete pNext;
-			pNext = nullptr;
-		}
 	};
 
 	Element* pTop = nullptr;
+	
 public:
+
 	Stack() = default;
-	Stack(const Stack& src)
-	{
+	
+	Stack(const Stack& src) {
 		*this = src;
 	}
-	Stack& operator=(const Stack& src)
-	{
-		if (!empty()) {
+	Stack& operator=(const Stack& src) {
+
+		if (pTop)
 			delete pTop;
-			pTop = nullptr;
-		}
 		if (!src.empty()) {
 			pTop = new Element(*src.pTop);
 		}
-		return *this;
+		return*this;
 	}
-	~Stack()
-	{
-		delete pTop;
-		pTop = nullptr;
+	~Stack(){
+		if (pTop) {
+			delete pTop;
+			pTop = nullptr;
+		}
 	}
 
 	void push(int val)
@@ -93,11 +97,12 @@ public:
 	int pop()
 	{
 		if (!empty()) {
-			const int tempVal = pTop->getVal();
-			Element* oldTop = pTop;
+			const int payload = pTop->getVal();
+			Element* tempTop = pTop;
 			pTop = pTop->disconnect();
-			delete oldTop;
-			return tempVal;
+			delete tempTop;
+
+			return payload;
 		}
 		else {
 			return -1;
@@ -106,7 +111,7 @@ public:
 	int size()const
 	{
 		if (!empty()) {
-			return pTop->countElements();
+			return pTop->count(pTop);
 		}
 		else {
 			return 0;

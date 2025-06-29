@@ -23,6 +23,8 @@ void test2()
 	s.push(3);
 	s.push(3);
 	s.push(3);
+	int i = s.size();
+	int b = i;
 	if (s.size() == 4)
 	{
 		printf("    Test 2 passed!\n");
